@@ -1,3 +1,7 @@
+import pytz
+import datetime
+d = datetime.datetime.now(pytz.timezone("America/Sao_Paulo"))
+data_Fmt = d.strftime("%d/%m/%y %Hh:%M")
 print(f"""
 
 [d] Depositar
@@ -5,34 +9,41 @@ print(f"""
 [e] Extrato
 [q] Sair
 
+{data_Fmt}
 => """
-      )
+)
 saldo = 0
 limite = 500
 extrato = ""
 numero_saques = 0
+numero_depositos = 0
 LIMITE_SAQUES = 3
+LIMITE_DEPOSITOS = 10
 
 while True:
     enter = input("Escolha a operação desejada ")
 
     if enter == "d":
-        valor = float(input("Informe o valor do depósito: "))
-        if valor > 0:
-            saldo += valor
-            extrato += f"Depósito: R$ {valor:.2f}\n"
+        if numero_depositos < LIMITE_DEPOSITOS:
+            valor = float(input("Informe o valor do depósito: "))
+            if valor > 0:
+                saldo += valor
+                numero_depositos += 1
+                extrato += f"Depósito: R$ {valor:.2f},Horario: {data_Fmt}\n"
 
+            else:
+                print("Digite um deposito valido")
         else:
-            print("Digite um deposito valido")
+            print("Limite de deposito atingido")
 
     elif enter == "s":
-        valor = float(input("Informe o valor do saque: "))
         if numero_saques < LIMITE_SAQUES:
+            valor = float(input("Informe o valor do saque: "))
             if valor <= limite:
                 if saldo >= valor:
                     saldo -= valor
                     numero_saques += 1
-                    extrato += f"Saque: R$ {valor:.2f}\n"
+                    extrato += f"Saque: R$ {valor:.2f},Horario: {data_Fmt}\n"
 
                 else:
                     print("Não foi possivel realizar o saque, saldo insuficiente")
@@ -40,7 +51,7 @@ while True:
             else:
                 print("Você nãõ possui saldo o suficiente")
         else:
-            print("Limite de saques exedidos")
+            print("Limite de saques atingido")
     elif enter == "e":
         print("===============Seus exratos===============")
         print(extrato if extrato else "Não ocorreu nenhum extrato")
