@@ -61,7 +61,6 @@ class Cliente:
         self.conta = Conta(agencia="0001", numero="12345")
 
 
-# Execução principal
 nome = input("Nome do cliente: ")
 cpf = input("CPF: ")
 data_nascimento = input("Data de nascimento: ")
@@ -88,8 +87,8 @@ while True:
         cliente.conta.exibir_extrato()
 
     elif opcao == "q":
-        print("Obrigado por usar o sistema bancário.")
+        print("Obrigado por usar o sistema bancário!.")
         break
 
     else:
-        print("Opção inválida.")
+        print("Opção inválida, Tente novamente.")
